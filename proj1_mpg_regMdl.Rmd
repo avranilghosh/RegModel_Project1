@@ -1,15 +1,16 @@
 ---
-title: 'Johns Hopkins University Coursera: Regression Models (Project 1: 2015 Februray)'
-output: proj1_mpg_regMdl.pdf
+title: 'Johns Hopkins University Coursera: Regression Models (Project 1: 2015 February)'
+output: pdf_document
 ---
 <br> </br>
 
 ## Executive Summary
 
-MPG difference between automatic and manual transmission is statistically analyzed for the 3 predictors of vehicular *weight*, *displacement*, and *horsepower* based on the linear regression models.  For each of the 3 predictors, both summary and regression plot are shown, where data points for automatic and manual transmission are colored 'blue' and 'red' respectively.  The conclusions are:
+MPG difference between automatic and manual transmission is statistically analyzed for the 3 predictors of vehicular *weight*, *displacement*, and *horsepower* independently as well as all the 3 included on the linear regression models.  For each of the 3 predictors, both summary and regression plot are shown, where data points for automatic and manual transmission are colored 'blue' and 'red' respectively.  The conclusions are:
 
-* MPG difference between automatic and manual transmission is insignifant when the predictor is *weight* because the respective correlations with MPG are nearly the same with -0.98 and -0.97.
-* Among the 3 predictors, vehicular *weight* ranks the best, based on its consistently low sigma and high absolute correlation. 
+* MPG difference between automatic and manual transmission is insignificant when the predictor is *weight* because the respective correlations with MPG are nearly the same with -0.98 and -0.97.
+* Among the 3 predictors, vehicular *weight* ranks the best, based on its consistently low sigma and high absolute correlation of 95.8%.
+* Linear regression with all the 3 predictors included resulted in, as expected, degraded correlations whose the highest absolute correlation of 84.6% is lower than the worst of the 3 single predictors by *displacement* at 88.4%.
 <br> </br>
 
 ## Overview
@@ -103,6 +104,19 @@ Correlation of Coefficients for *am* = 0 and 1:
 corWTa <- summary( fitWTa , correlation = TRUE )$correlation[ 2 , 1 ]
 corWTm <- summary( fitWTm , correlation = TRUE )$correlation[ 2 , 1 ]
 ```
+
+**4. MPG vs Weight, Displacement, and Horsepower Regression**
+
+The linear regression is generated for both *am*:
+```{r}
+fitWDH <- lm( MPG ~ WT + DSP + HP , subfm )
+smryWDH <- summary( fitWDH , correlation = TRUE )
+```
+
+Correlation of Coefficients for both *am*:
+```{r}
+corWDH <- summary( fitWDH , correlation = TRUE )$correlation
+```
 <br> </br>
 
 ## Summary of Sigmas and Correlations
@@ -120,9 +134,18 @@ prj1Smry[ 3 , ] <- c( abs( corWTa - corWTm ) , smryWT$sigma ,  abs( smryWT$corre
 round( prj1Smry , 3 )  # round to 3 digits
 ```
 
-Thus, the vehicular *weight* is a good predictor of its *MPG* irrespective of *transmission* type. 
+Thus, the vehicular *weight* is a good predictor of its *MPG* irrespective of *transmission* type.
+
+Including all 3 predictors in a linear regression resulted in worse correlations, as in the following correlation matrix:
+
+```{r}
+corWDH
+```
+
+Even the highest absolute correlations of 85% here are lower than the lowest of the above 3 regressions for a single predictor at 88.4%.
 
 \pagebreak
+
 ## Appendix: Regression Models and Plots
 
 ### 1. MPG vs Displacement Regression
